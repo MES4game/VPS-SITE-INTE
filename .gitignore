@@ -1,0 +1,12 @@
+*
+!.gitignore
+!.gitmodules
+!LICENSE
+!README.md
+!.env
+!run.sh
+!backup.sh
+!front/
+!front/**
+!back/
+!back/**

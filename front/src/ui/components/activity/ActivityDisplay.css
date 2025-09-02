@@ -1,0 +1,22 @@
+.activity-display {
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: center;
+    max-width: 100%;
+
+    & > * {
+        margin: 0;
+        text-align: center;
+        
+        &:is(h2) {
+            margin-bottom: 10px;
+        }
+    }
+
+    & > hr {
+        margin: 20px 0;
+        width: 100%;
+    }
+}

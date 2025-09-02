@@ -1,0 +1,76 @@
+{
+    "root": true,
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaVersion": 2021,
+        "sourceType": "module",
+        "project": true,
+        "tsconfigRootDir": "."
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/strict-type-checked",
+        "plugin:@typescript-eslint/stylistic-type-checked"
+    ],
+    "overrides": [
+        {
+            "files": ["**/*.{js,ts}"],
+            "rules": {
+                "@typescript-eslint/naming-convention": [
+                    "error",
+                    {
+                        "selector": "variable",
+                        "modifiers": ["global"],
+                        "format": ["UPPER_CASE"],
+                        "leadingUnderscore": "allowSingleOrDouble",
+                        "trailingUnderscore": "allowSingleOrDouble"
+                    },
+                    {
+                        "selector": ["variable", "parameter", "property", "parameterProperty"],
+                        "format": ["snake_case"],
+                        "leadingUnderscore": "allowSingleOrDouble",
+                        "trailingUnderscore": "allowSingleOrDouble"
+                    },
+                    {
+                        "selector": ["variable", "parameter", "property", "parameterProperty"],
+                        "types": ["function"],
+                        "format": ["camelCase"],
+                        "leadingUnderscore": "allowSingleOrDouble",
+                        "trailingUnderscore": "allowSingleOrDouble"
+                    },
+                    {
+                        "selector": ["function", "method", "accessor"],
+                        "format": ["camelCase"],
+                        "leadingUnderscore": "allowSingleOrDouble",
+                        "trailingUnderscore": "allowSingleOrDouble"
+                    },
+                    {
+                        "selector": "typeLike",
+                        "format": ["PascalCase"],
+                        "leadingUnderscore": "allowSingleOrDouble",
+                        "trailingUnderscore": "allowSingleOrDouble"
+                    },
+                    {
+                        "selector": "enumMember",
+                        "format": ["UPPER_CASE"],
+                        "leadingUnderscore": "allowSingleOrDouble",
+                        "trailingUnderscore": "allowSingleOrDouble"
+                    },
+                    {
+                        "selector": "import",
+                        "format": ["UPPER_CASE", "camelCase", "PascalCase"],
+                        "leadingUnderscore": "allowSingleOrDouble",
+                        "trailingUnderscore": "allowSingleOrDouble"
+                    }
+                ]
+            }
+        },
+        {
+            "files": ["**/*.js"],
+            "extends": ["plugin:@typescript-eslint/disable-type-checked"]
+        }
+    ]
+}
