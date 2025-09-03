@@ -1,3 +1,5 @@
+import { SchemaType } from "@/utils/transfom";
+
 export interface Challenge {
     id: number;
     title: string;
@@ -7,11 +9,11 @@ export interface Challenge {
     done: Map<string, number>;
 }
 
-export const CHALLENGE_SCHEMA: Record<keyof Challenge, any> = {
+export const CHALLENGE_SCHEMA: SchemaType<Challenge> = {
     id: 0,
     title: "",
     description: "",
     points: 0,
     max_done: 0,
-    done: {}
+    done: new Map<string, number>()
 }

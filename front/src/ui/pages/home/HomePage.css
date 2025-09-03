@@ -1,13 +1,16 @@
 .home-welcome-section {
     height: 50vh;
     display: flex;
+    flex-direction: column;
     align-items: center;
     text-align: center;
-    overflow: hidden;
+    margin-bottom: 50px;
 
     & > h1 {
-        font-size: 72px;
+        font-size: 48px;
         animation: homeSlideBottom 1.5s ease-in-out, fadeIn 2.0s ease-in-out;
+        overflow-x: visible;
+        overflow-y: hidden;
     }
 }
 
@@ -77,5 +80,32 @@
     100% {
         opacity: 100%;
         transform: translateY(0px);
+    }
+}
+
+@media (max-width: 700px) {
+    .home-info-element, .home-info-element.reverse {
+        flex-direction: column;
+
+        & > * {
+            text-align: center;
+        }
+
+        &.reverse > * {
+            text-align: center;
+        }
+    }
+
+    .home-info-element img {
+        width: 125px;
+        height: 125px;
+    }
+
+    .home-info-text {
+        max-width: 100%;
+    }
+
+    .home-info-text h2 {
+        font-size: 20px;
     }
 }

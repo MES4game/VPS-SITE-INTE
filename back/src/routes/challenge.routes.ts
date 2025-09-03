@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getChallenges, getChallengeScores } from "@/controllers/challenge.controller";
+import { deleteChallengeDone, getChallenges, getChallengeScores, postChallengeDone } from "@/controllers/challenge.controller";
 
 const router = Router();
 
@@ -28,5 +28,72 @@ router.get("/getAll", getChallenges);
  *         description: A JSON containing every scores
  */
 router.get("/scores/getAll", getChallengeScores);
+
+/**
+ * @openapi
+ * /challenge/done:
+ *   post:
+ *     summary: Add 1 to done for given team to given challenge
+ *     tags:
+ *       - Challenge module
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - password
+ *               - team_id
+ *               - challenge_id
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: yoursecret
+ *               team_id:
+ *                 type: integer
+ *                 example: 1
+ *               challenge_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Done
+ */
+router.post("/done", postChallengeDone);
+
+/**
+ * @openapi
+ * /challenge/done:
+ *   delete:
+ *     summary: Substract 1 to done for given team to given challenge
+ *     tags:
+ *       - Challenge module
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - password
+ *               - team_id
+ *               - challenge_id
+ *             properties:
+ *               password:
+ *                 type: string
+ *                 example: yoursecret
+ *               team_id:
+ *                 type: integer
+ *                 example: 1
+ *               challenge_id:
+ *                 type: integer
+ *                 example: 1
+ *     responses:
+ *       200:
+ *         description: Done
+ */
+router.delete("/done", deleteChallengeDone);
+
 
 export default router;

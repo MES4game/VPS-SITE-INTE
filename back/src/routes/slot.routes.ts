@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @openapi
- * /slot:
+ * /slot/getAll:
  *   get:
  *     summary: Returns every slots
  *     tags:
@@ -14,6 +14,6 @@ const router = Router();
  *       200:
  *         description: A JSON containing slots
  */
-router.get("/", getSlots);
+router.get("/getAll", getSlots);
 
 export default router;

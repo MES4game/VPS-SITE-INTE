@@ -14,9 +14,12 @@ app.use(express.json());
 // Extern Middlewares
 app.use(helmet());
 app.use(compression());
-app.use(cors({ origin: false }));
 app.use(express.json({ limit: "10kb" }));
 app.use(morgan("combined"));
+
+app.use(cors({
+    origin: process.env.NODE_ENV === "production" ? "https://inte.bde-pps.fr" : "https://dev.inte.bde-pps.fr"
+}));
 
 // Swagger docs
 if (process.env.NODE_ENV !== "production") app.use("/docs", swaggerUi.serve, swaggerUi.setup(SWAGGER_SPEC));

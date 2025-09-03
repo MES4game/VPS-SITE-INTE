@@ -16,6 +16,7 @@ const ActivityPage: FC = (): ReactNode => {
     }, []);
 
     useEffect(() => {
+        if (selected === 0) return;
         getActivity(selected)
             .then(setActivity)
             .catch(console.log);
@@ -30,7 +31,7 @@ const ActivityPage: FC = (): ReactNode => {
     });
 
     return (
-        <>
+        <div className="activity-container">
             <div className="activity-selector">
                 {activities.map((value) => (
                     <button
@@ -47,7 +48,7 @@ const ActivityPage: FC = (): ReactNode => {
                 ? <ActivityDisplay activity={activity} />
                 : <h1 className='activity-no-selection'>Vous devez sélectionner une activité.</h1>
             }
-        </>
+        </div>
     );
 }
 

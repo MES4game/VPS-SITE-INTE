@@ -1,8 +1,8 @@
 import { FC, ReactNode, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHouse, faClipboardList, faBullseye, faTrophy, faLocationDot, faEnvelope } from "@fortawesome/free-solid-svg-icons";
-import { faInstagram, faFacebook, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
+import { faHouse, faClipboardList, faBullseye, faTrophy, faLink, faLocationDot, faEnvelope } from "@fortawesome/free-solid-svg-icons";
+import { faInstagram, faWhatsapp } from "@fortawesome/free-brands-svg-icons";
 import { ComponentProps } from "@/shared/models/common/Props";
 import "@/ui/components/infobar/InfobarComp.css";
 
@@ -24,7 +24,7 @@ const InfobarComp: FC<InfobarCompProps> = (props: InfobarCompProps): ReactNode =
         <footer id='infobar' className={props.className} style={props.style}>
             <div className="infobar-info">
                 <h3>Intégration 2025/2026 | BDE - Polytech Paris-Saclay</h3>
-                <p>TODO: add text for description of integration</p>
+                <p>La semaine d'intégration organisée par le BDE permet aux nouveaux élèves de rencontrer de nouvelles personnes et de s'habituer à l'école tout en s'amusant.</p>
             </div>
             <div className="infobar-links">
                 <div>
@@ -60,17 +60,17 @@ const InfobarComp: FC<InfobarCompProps> = (props: InfobarCompProps): ReactNode =
                     <h3>Community</h3>
                     <ul className="reverse">
                         <li>
-                            <a href="/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://www.instagram.com/bde_polytech_psaclay/" target="_blank" rel="noopener noreferrer">
                                 <FontAwesomeIcon icon={faInstagram} size="2x" />
                             </a>
                         </li>
                         <li>
-                            <a href="/" target="_blank" rel="noopener noreferrer">
-                                <FontAwesomeIcon icon={faFacebook} size="2x" />
+                            <a href="https://taplink.cc/pops_parrainage2025?fbclid=PAZXh0bgNhZW0CMTEAAacYU1pKrFaoEHmTSHlaD-FYfisX0YxWlXvAuBNJA1tA5iCizb3g0SHZJXEQSw_aem_Vu2FWp0gtY_WfxfP2SEteQ" target="_blank" rel="noopener noreferrer">
+                                <FontAwesomeIcon icon={faLink} size="2x" />
                             </a>
                         </li>
                         <li>
-                            <a href="/" target="_blank" rel="noopener noreferrer">
+                            <a href="https://chat.whatsapp.com/J7BPidsVkjXJIeWyjVOIaI?fbclid=PAZXh0bgNhZW0CMTEAAaevxSA6OIf37-JJfUNfFefJCPE1B4rjgb9ZokOvbv1noMiCZWXYQSS40veGvQ_aem_v_v8h-XueWD9HK4bvk5Q7A" target="_blank" rel="noopener noreferrer">
                                 <FontAwesomeIcon icon={faWhatsapp} size="2x" />
                             </a>
                         </li>
@@ -98,9 +98,7 @@ const InfobarComp: FC<InfobarCompProps> = (props: InfobarCompProps): ReactNode =
             </div>
             <div className="infobar-legal">
                 <ul>
-                    <li><Link to="/terms">Terms of Service</Link></li>
-                    <li><Link to="/privacy">Privacy Policy</Link></li>
-                    <li><Link to="/cookie">Cookie Policy</Link></li>
+                    <li><Link to="/terms"></Link></li>
                 </ul>
                 <p>&copy; BUREAU DES ELEVES DE POLYTECH PARIS-SACLAY</p>
             </div>

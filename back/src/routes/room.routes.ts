@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @openapi
- * /room:
+ * /room/getAll:
  *   get:
  *     summary: Returns every rooms
  *     tags:
@@ -14,6 +14,6 @@ const router = Router();
  *       200:
  *         description: A JSON containing rooms
  */
-router.get("/", getRooms);
+router.get("/getAll", getRooms);
 
 export default router;

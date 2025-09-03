@@ -19,13 +19,16 @@ const ChallengePage: FC = (): ReactNode => {
     const scores = useSmartRef<Score[]>([]);
     const challenges = useSmartRef<Challenge[]>([]);
 
-    getChallengeScores()
-        .then(scores.set)
-        .catch(console.log);
+    useEffect(() => {
+        getChallengeScores()
+            .then(scores.set)
+            .catch(console.log);
 
-    getChallenges()
-        .then(challenges.set)
-        .catch(console.log);
+        getChallenges()
+            .then(challenges.set)
+            .catch(console.log);
+        console.log(teams.get());
+    }, []);
 
     const [sorted_teams, setSortedTeams] = useState([...teams.get()].sort((a, b) => (a.id > b.id ? 1 : -1)));
 

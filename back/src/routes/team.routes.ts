@@ -5,7 +5,7 @@ const router = Router();
 
 /**
  * @openapi
- * /team:
+ * /team/getAll:
  *   get:
  *     summary: Returns every teams
  *     tags:
@@ -14,6 +14,6 @@ const router = Router();
  *       200:
  *         description: A JSON containing teams
  */
-router.get("/", getTeams);
+router.get("/getAll", getTeams);
 
 export default router;

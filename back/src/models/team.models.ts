@@ -1,10 +1,12 @@
+import { SchemaType } from "@/utils/transfom"
+
 export interface Team {
     id: number;
     name: string;
     color: string;
 }
 
-export const TEAM_SCHEMA: Record<keyof Team, any> = {
+export const TEAM_SCHEMA: SchemaType<Team> = {
     id: 0,
     name: "",
     color: ""

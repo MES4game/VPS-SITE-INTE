@@ -1,9 +1,11 @@
+import { SchemaType } from "@/utils/transfom";
+
 export interface Room {
     id: number;
-    name: string;
+    value: string;
 }
 
-export const ROOM_SCHEMA: Record<keyof Room, any> = {
+export const ROOM_SCHEMA: SchemaType<Room> = {
     id: 0,
-    name: ""
+    value: ""
 }

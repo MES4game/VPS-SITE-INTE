@@ -1,13 +1,8 @@
-import { Team } from "@/shared/models/common/Team";
-
-const TEAMS: Team[] = [
-    { id: 1, name: 'ROUGE', color: 'red' },
-    { id: 2, name: 'JAUNE', color: 'yellow' },
-    { id: 3, name: 'VERT', color: 'green' },
-    { id: 4, name: 'BLEUE', color: 'blue' }
-];
+import { Team, TEAM_SCHEMA } from "@/shared/models/common/Team";
+import { rawObjToSchema } from "@/shared/utils/common/Transform";
+import { fetchData } from "@/api/common/Fetch";
 
 export async function getTeams(): Promise<Team[]> {
-    await fetch("https://data.bde-pps.fr/bde/images/logo/bde.svg");
-    return TEAMS;
+    const data: Team[] = await fetchData("/team/getAll") as Team[];
+    return data.map((value) => rawObjToSchema(value, TEAM_SCHEMA));
 }

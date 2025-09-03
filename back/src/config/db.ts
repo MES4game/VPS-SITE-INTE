@@ -1,9 +1,9 @@
 import mysql from 'mysql2/promise';
 
-export const db = mysql.createPool({
-    host:     process.env.DB_HOST,
-    port:     Number(process.env.DB_PORT),
-    user:     process.env.DB_USER,
-    password: process.env.DB_PASS,
-    database: process.env.DB_NAME
+export const DB = mysql.createPool({
+    host:     process.env.VPS_SITE_DB_HOST ?? 'localhost',
+    port:     Number(process.env.VPS_SITE_DB_PORT ?? 3306),
+    user:     process.env.VPS_SITE_DB_USER ?? 'user',
+    password: process.env.VPS_SITE_DB_PASS ?? 'password',
+    database: process.env.VPS_SITE_DB_NAME ?? 'database'
 });

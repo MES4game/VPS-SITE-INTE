@@ -30,7 +30,7 @@ const Records: FC<RecordsProps> = (props: RecordsProps): ReactNode => {
             <tr key={index}>
                 <td style={{ color: team?.color }}>{team?.name}</td>
                 <td>{record.team_num}</td>
-                <td>{room?.name}</td>
+                <td>{room?.value}</td>
                 <td>{slot?.value}</td>
                 <td>{record.points}</td>
                 <td>{record.bonus}</td>
