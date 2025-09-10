@@ -31,6 +31,8 @@ const ActivityDisplay: FC<ActivityDisplayProps> = (props: ActivityDisplayProps):
     getRecordsByActivityId(props.activity.id)
         .then(records.set)
         .catch(console.log);
+    
+    console.log(records.get());
 
     useEffect(() => {
         console.log("Loaded: ActivityDisplay");

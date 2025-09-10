@@ -4,6 +4,7 @@ import { GeneralVarsProvider } from '@/shared/contexts/common/GeneralVars';
 import NavbarComp from '@/ui/components/navbar/NavbarComp';
 import InfobarComp from '@/ui/components/infobar/InfobarComp';
 import "@/App.css";
+import AdminPage from "./ui/pages/AdminPage";
 
 const LoadingComp:  FC = lazy(() => import('@/ui/components/common/LoadingComp'));
 const HomePage:     FC = lazy(() => import('@/ui/pages/home/HomePage'));
@@ -31,6 +32,7 @@ const App: FC = (): ReactNode => {
                         <Route path='/activity' element={ <ActivityPage /> } />
                         <Route path='/challenge' element={ <ChallengePage /> } />
                         <Route path='/result' element={ <ResultPage /> } />
+                        <Route path='/admin' element={ <AdminPage /> } />
                         <Route path='*' element={ <NotFoundPage /> } />
                     </Routes>
                 </Suspense>

@@ -1,121 +1,149 @@
-import { getActivities } from "@/api/activity/Activity";
-import { useGeneralVars } from "@/shared/contexts/common/GeneralVars";
-import { Activity } from "@/shared/models/activity/Activity";
 import React, { useEffect, useState } from "react";
+import { useGeneralVars } from "@/shared/contexts/common/GeneralVars";
+import { Challenge } from "@/shared/models/challenge/Challenge";
+import { useSmartRef } from "@/shared/utils/common/SmartHook";
+import { getChallenges } from "@/api/challenge/Challenge";
+import "@/ui/pages/AdminPage.css";
 
 /*eslint-disable*/
-type Option = {
-    key: string;
-    value: string;
-};
+const AdminPage: React.FC = () => {
+    const { teams } = useGeneralVars();
+    const [render_value, setRender] = useState<boolean>(false);
 
-interface Props {
-    options: Option[];
-    onSend: (data: { text: string; number: number; optionKey: string }) => void;
-}
+    function reRender() { setRender(!render_value); }
 
-const InputContainer: React.FC<Props> = ({ options, onSend }) => {
-    const { teams, rooms, slots } = useGeneralVars();
-    let activities: Activity[] = [];
-    getActivities()
-        .then((value) => activities = value)
-        .catch(console.log);
-
+    const [sorted_teams, setSortedTeams] = useState([...teams.get()].sort((a, b) => (a.id > b.id ? 1 : -1)));
     const [password, setPassword] = useState("");
-    const [activity_id, setActivityId] = useState<number>(activities[0]?.id || 0);
-    const [team_id, setTeamId] = useState<number>(teams.get()[0]?.id || 0);
-    const [team_num, setTeamNum] = useState<number>(-1);
-    const [room_id, setRoomId] = useState<number>(rooms.get()[0]?.id || 0);
-    const [slot_id, setSlotId] = useState<number>(slots.get()[0]?.id || 0);
-    const [points, setPoints] = useState<number>(0);
-    const [bonus, setBonus] = useState<number>(0);
-    const [comment, setComment] = useState<string>("");
-    const [selectedKey, setSelectedKey] = useState<string>(options[0]?.key || "");
-    
-    useEffect(() => {
-    }, []);
+    const challenges = useSmartRef<Challenge[]>([]);
 
-    const handleSend = () => {
-        onSend({
-            text: password,
-            number: activity_id,
-            optionKey: selectedKey,
-        });
+    challenges.subscribe(reRender);
+    teams.subscribe(() => {
+        setSortedTeams([...teams.get()].sort((a, b) => (a.id > b.id ? 1 : -1)));
+        reRender();
+    });
+
+    function displayRowChallenge(challenge: Challenge, index: number) {
+        return (
+            <tr key={index}>
+                <td>{challenge.title}</td>
+                <td>{challenge.points}</td>
+                <td>{challenge.max_done}</td>
+                {sorted_teams.map((value) => (
+                    <td>
+                        <button onClick={() => { handleSub(challenge.id, value.id) }} disabled={(challenge.done.get(value.id.toString()) ?? 0) > 0}>-</button>
+                        <p>{challenge.done.get(value.id.toString()) ?? 0}</p>
+                        <button onClick={() => { handleAdd(challenge.id, value.id) }} disabled={(challenge.done.get(value.id.toString()) ?? 0) < challenge.max_done ||  challenge.max_done === -1}>+</button>
+                    </td>
+                ))}
+            </tr>
+        );
+    }
+
+    const props = {
+        elements: challenges,
+        default_sorting_field: 'id' as keyof Challenge,
+        heads: [
+            { key: 'id', value: 'Défi' },
+            { key: 'points', value: 'Points' },
+            { key: 'max_done', value: 'Maximum' },
+            ...sorted_teams.map((value) => { return { value: value.name, color: value.color }; })
+        ] as { key: keyof Challenge; value: string; color: string }[],
+        displayRowElement: displayRowChallenge
     };
 
-  return (
-    <div className="p-4 border rounded-lg shadow-md flex flex-col gap-3 w-80">
-        <input
-            type="text"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="border p-2 rounded-md"
-        />
+    const sorted_field = useSmartRef<keyof Challenge>(props.default_sorting_field);
+    const ascending = useSmartRef<boolean>(true);
 
-        <select
-            value={activity_id}
-            onChange={(e) => setActivityId(parseInt(e.target.value, 10) || 0)}
-            className="border p-2 rounded-md"
-        >
-            {activities.map((opt) => (
-                <option key={opt.id} value={opt.id}>
-                    {opt.title}
-                </option>
-            ))}
-        </select>
+    function sortElements() {
+        props.elements.set([...props.elements.get()].sort(
+            (a, b) => (ascending.get() ? 1 : -1) * ((a[sorted_field.get()] ?? 0) > (b[sorted_field.get()] ?? 0) ? 1 : -1)
+        ));
+    }
 
-        <input
-            type="number"
-            placeholder="Team number"
-            value={team_num}
-            onChange={(e) => setTeamNum(parseInt(e.target.value, 10) || 0)}
-            className="border p-2 rounded-md"
-        />
+    function handleSort(field: keyof Challenge | undefined) {
+        if (field === undefined) return;
+        ascending.set(sorted_field.get() === field ? !ascending.get() : true);
+        sorted_field.set(field);
+        sortElements();
+    }
 
-        {/* Dropdown */}
-        <select
-            value={selectedKey}
-            onChange={(e) => setSelectedKey(e.target.value)}
-            className="border p-2 rounded-md"
-        >
-            {options.map((opt) => (
-                <option key={opt.key} value={opt.key}>
-                    {opt.value}
-                </option>
-            ))}
-        </select>
+    useEffect(() => {
+        getChallenges()
+            .then(challenges.set)
+            .catch(console.log);
+    }, []);
 
-        <input
-            type="number"
-            placeholder="Team number"
-            value={points}
-            onChange={(e) => setPoints(parseInt(e.target.value, 10) || 0)}
-            className="border p-2 rounded-md"
-        />
-        <input
-            type="number"
-            placeholder="Team number"
-            value={bonus}
-            onChange={(e) => setBonus(parseInt(e.target.value, 10) || 0)}
-            className="border p-2 rounded-md"
-        />
-        <input
-            type="text"
-            placeholder="comment"
-            value={comment}
-            onChange={(e) => setComment(e.target.value)}
-            className="border p-2 rounded-md"
-        />
+    async function handleAdd(challenge_id: number, team_id: number) {
+        const response = await fetch(`https://${process.env.NODE_ENV === "development" ? "dev." : "api."}inte.bde-pps.fr${process.env.NODE_ENV === "development" ? "/api" : ""}/challenge/done`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                password: password,
+                challenge_id,
+                team_id
+            }),
+        });
 
-        {(team_num === -1) || <button
-          onClick={handleSend}
-          className="bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600"
-        >
-            Send
-        </button>}
-    </div>
-  );
+        if (!response.ok) alert("Request failed: " + response.status);
+
+        getChallenges()
+            .then(challenges.set)
+            .catch(console.log);
+    };
+
+    async function handleSub(challenge_id: number, team_id: number) {
+        const response = await fetch(`https://${process.env.NODE_ENV === "development" ? "dev." : "api."}inte.bde-pps.fr${process.env.NODE_ENV === "development" ? "/api" : ""}/challenge/done`, {
+            method: "DELETE",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                password: password,
+                challenge_id,
+                team_id
+            }),
+        });
+
+        if (!response.ok) alert("Request failed: " + response.status);
+
+        getChallenges()
+            .then(challenges.set)
+            .catch(console.log);
+    };
+
+    return (
+        <div>
+            <input
+                type="text"
+                placeholder="Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="border p-2 rounded-md"
+            />
+            <div className="admin-table">
+                <table>
+                    <thead>
+                        <tr>
+                            {props.heads.map((value, index) => (
+                                <th
+                                    key={index}
+                                    onClick={() => { handleSort(value.key) }}
+                                    style={{ color: value.color ?? '' }}
+                                >
+                                    {value.value}
+                                </th>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {props.elements.get().map(props.displayRowElement)}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    );
 };
 
-export default InputContainer;
+export default AdminPage;
